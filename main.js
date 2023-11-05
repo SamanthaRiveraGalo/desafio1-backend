@@ -57,7 +57,11 @@ class ProductManager {
 
 // pruebas
 
-const productManager = new ProductManager()
+const productManager = new ProductManager();
 
-console.log(productManager.getProducts())
-console.log('hola mundo')
+productManager.addProduct("Producto 1", "Descripción del producto 1", 100, "/imagen.jpg", "123456", 10);
+productManager.addProduct("Producto 2", "Descripción del producto 2", 200, "/imagen2.jpg", "789012", 20);
+
+const products = productManager.getProducts();
+
+console.log(products);
