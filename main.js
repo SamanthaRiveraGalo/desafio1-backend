@@ -6,7 +6,6 @@ class ProductManager {
         this.idProduct = 1
     }
 
-
     addProduct(title, description, price, thumbnail, code, stock) {
 
         //para que no se repita el codigo
@@ -22,21 +21,22 @@ class ProductManager {
             console.log('Todos los campos son obligatorios');
             return
 
-        } else {
-
-            const newProduct = {
-                id: this.idProduct++,
-                title,
-                description,
-                price,
-                thumbnail,
-                code,
-                stock
-            }
-
-            this.products.push(newProduct)
-            console.log(`El producto se agregó correctamente`)
         }
+
+        const newProduct = {
+            id: this.idProduct,
+            title,
+            description,
+            price,
+            thumbnail,
+            code,
+            stock
+        }
+
+        this.products.push(newProduct)
+        this.idProduct++;
+        console.log(`El producto se agregó correctamente`)
+
     }
 
     getProducts() {
@@ -56,3 +56,8 @@ class ProductManager {
 }
 
 // pruebas
+
+const productManager = new ProductManager()
+
+console.log(productManager.getProducts())
+console.log('hola mundo')
