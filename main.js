@@ -1,7 +1,6 @@
 class ProductManager {
 
     constructor() {
-        //array
         this.products = []
         this.idProduct = 1
     }
@@ -20,7 +19,6 @@ class ProductManager {
         if (!title || !description || !price || !thumbnail || !code || !stock) {
             console.log('Todos los campos son obligatorios');
             return
-
         }
 
         const newProduct = {
@@ -58,10 +56,21 @@ class ProductManager {
 // pruebas
 
 const productManager = new ProductManager();
+//array vacio
+console.log(productManager.getProducts())
 
-productManager.addProduct("Producto 1", "Descripción del producto 1", 100, "/imagen.jpg", "123456", 10);
-productManager.addProduct("Producto 2", "Descripción del producto 2", 200, "/imagen2.jpg", "789012", 20);
 
-const products = productManager.getProducts();
+productManager.addProduct("producto prueba", "Este es un producto prueba", 200, "sin img", "abc123", 25);
+productManager.addProduct("producto prueba 2", "Este es un producto prueba 2", 300, "sin img", "abc1234", 30);
+productManager.addProduct("producto prueba 3", "Este es un producto prueba 3", 100, "sin img", "abc12345", 40);
 
-console.log(products);
+// codigo repetido
+productManager.addProduct("producto prueba", "Este es un producto prueba", 200, "sin img", "abc123", 25);
+
+
+console.log(productManager.getProductById(1));
+console.log(productManager.getProductById(2));
+console.log(productManager.getProductById(3));
+console.log(productManager.getProductById(4)) //cogido repetido
+// todos los productos agregados
+console.log(productManager.getProducts())
