@@ -39,9 +39,10 @@ class ProductManager {
         console.log(`El producto se agregó correctamente`)
 
         //convierto el array en JSON
-        const productsString = JSON.stringify(this.products)
+        const productsString = JSON.stringify(this.products, null, 2)
         //escribir el producto en el archivo
-        await fs.writeFile(this.path, productsString, 'utf-8')
+        await fs.writeFile(this.path, productsString)
+        return this.products
 
     }
 
@@ -71,8 +72,8 @@ class ProductManager {
             const updatedProduct = { ...products[indice], ...updatedFields };
             products[indice] = updatedProduct;
 
-            // Escribo el producto actualizado
-            await fs.writeFile(path, JSON.stringify(products));
+            const productsString = JSON.stringify(this.products, null, 2)
+            await fs.writeFile(this.path, productsString)
             return updatedProduct;
 
         } else {
@@ -91,9 +92,10 @@ class ProductManager {
             // elimino el producto
             products.splice(products.indexOf(foundProduct), 1);
             //convierto el array en json y luego lo escribo
-            const productsJson = JSON.stringify(this.products);
-            fs.writeFile('products.json', productsJson, 'utf-8');
+            const productsString = JSON.stringify(this.products, null, 2)
+            await fs.writeFile(this.path, productsString)
             console.log('El producto seleccionado fue eliminado')
+
         } else {
             console.log('Producto no encontrado')
         }
@@ -106,12 +108,14 @@ const productManager = new ProductManager('./productos.json');
 
 productManager.getProducts();
 
-productManager.addProduct({title: 'producto prueba' , description:'Este es un producto prueba', price:200, thumbnail:'Sin imagen' , code:'abc123', stock:25} )
+productManager.addProduct({ title: 'producto prueba', description: 'Este es un producto prueba', price: 200, thumbnail: 'Sin imagen', code: 'abc123', stock: 25 })
+
+productManager.addProduct({ title: 'producto prueba 2', description: 'Este es un producto prueba', price: 200, thumbnail: 'Sin imagen', code: 'abc1234', stock: 20 })
 
 productManager.getProducts();
 
 productManager.getProductById(1);
 
-productManager.updateProduct(2 ,  { title: 'prueba 2', description: 'Este es un producto prueba', price: 100, thumbnail: 'Sin imagen', code:'abc12345', stock: 41 })
+productManager.updateProduct(2, { title: 'prueba 3', description: 'Este es un producto prueba', price: 100, thumbnail: 'Sin imagen', code: 'abc12345', stock: 41 })
 
-productManager.deleteProduct(1)
+productManager.deleteProduct(2)
