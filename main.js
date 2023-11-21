@@ -88,7 +88,7 @@ class ProductManager {
         const product = await this.getProducts()
         //luego busco que producto quiero eliminar
         const indice = product.findIndex((prod) => prod.id === idProduct)
-    
+
         if (indice !== -1) {
             //uso splice para modificar el contenido del array
             product.splice(indice, 1);
@@ -102,20 +102,5 @@ class ProductManager {
     }
 }
 
-//TEST
-
-const productManager = new ProductManager('./productos.json');
-
-productManager.getProducts();
-
-productManager.addProduct({ title: 'producto prueba', description: 'Este es un producto prueba', price: 200, thumbnail: 'Sin imagen', code: 'abc123', stock: 25 })
-
-productManager.addProduct({ title: 'producto prueba 2', description: 'Este es un producto prueba', price: 200, thumbnail: 'Sin imagen', code: 'abc1234', stock: 20 })
-
-productManager.getProducts();
-
-productManager.getProductById(1);
-
-productManager.updateProduct(2, { title: 'prueba 3', description: 'Este es un producto prueba', price: 100, thumbnail: 'Sin imagen', code: 'abc12345', stock: 41 })
-
-productManager.deleteProduct(2)
+// export.productManager = ProductManager
+exports.productManager = ProductManager
