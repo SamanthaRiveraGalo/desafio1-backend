@@ -1,62 +1,53 @@
 const express = require('express')
-const { productManager } = require('./main.js')
+const ProductManager = require('./main.js')
+
 const app = express()
 const port = 8080
 
-//esto es necesario asi annde query
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-const products = new productManager('./productos.json')
+const productManager = new ProductManager('./productos.json')
 
 // con limite de llamados - query
 
 app.get('/products', async (req, res) => {
 
-    const limit = req.query.limit
-    //traigo los productos en json por la funcion getproducts
-    const product = await products.getProducts()
+    try {
+        const limit = parseInt( req.query.limit)
+        //traigo los productos 
+        const products = await productManager.getProducts()
 
-    // si el limit no es NaN entonces
-    if (!isNaN(limit)) {
-        product = product.slice(0, limit);
-        res.status(200).json({
-            status: "ok",
-            data: product,
-        })
-    } else {
-        res.status(500).json({
-            error: "Error al obtener los productos"
-        });
+        // si el limit no es NaN entonces
+        if (!isNaN(limit)) {
+
+            res.status(200).json({ status: "ok", data: products.slice(0, limit) });
+            // res.json(products.slice(0, limit))
+
+        } else {
+            res.status(200).json({ status: "ok", data: products });
+            // res.json(products)
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.menssage })
     }
 
 })
 
 //con el id (un solo producto)
-app.get('/products/:id', async (req, res) => {
+app.get('/products/:pid', async (req, res) => {
 
-    const id = req.params.id
-    const product = await products.getProductsById(id)
+    try {
 
-    if(!product){
-        res.status(404).json({
-            status:'fail',
-            messenge: 'Producto no encontrado'
-        })
-        return
+        const productId = parseInt(req.params.pid);
+        const product = await productManager.getProductsById(productId);
+
+        res.status(200).json({ status: "ok", data: product });
+    
+    } catch (error) {
+
+        res.status(404).json({ status: "error", message: error.message });
     }
-
-    // si se encuentra el producto
-
-    res.status(200).json({
-        status:'ok',
-        data: product
-    })
-})
-
+});
 
 // ejemplo en consola para saber que se levanto el servidor y que esta escuchando en el puerto 8080
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+    console.log(`Server listening at [localhost:${port}]`);
 })
-
